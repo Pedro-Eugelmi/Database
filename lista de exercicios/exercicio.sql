@@ -78,3 +78,13 @@ where estado = "SP"
 -- nome da coluna de total.
 
 select nome, preco_unitario * qtde as total from produto; 
+
+--  Apresentar o código do produto, o nome do produto do fornecedor de código 78.
+select nome, codigo_fornec from fornecedor 
+    where codigo_fornec = 78
+
+-- Apresentar o código e o nome dos fornecedores que possuem o código menor que
+-- 100 e que seja do estado de SP.
+
+select codigo_fornec,nome from fornecedor 
+where codigo_fornec < 100 and estado = "SP"
