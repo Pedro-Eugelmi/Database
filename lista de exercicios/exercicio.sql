@@ -104,7 +104,7 @@ update produto
 alter table fornecedor add column pais varchar(30);
 
 update table fornecedor 
-    pais = "brasil";
+  set pais = "brasil";
 
 -- k) Cadastrar um fornecedor estrangeiro.
 
@@ -112,4 +112,10 @@ insert into fornecedor(codigo_fornec,nome,fone, cidade,estado)
 values (655, "Health foods inc", "999888", "Austin", "TX" );
 
 -- l) Excluir os fornecedores brasileiros que não são do estado de SP. 
+delete from fornecedor 
+    where pais = "brasil" and estado != "SP"
 
+--     m) Apresentar todos os fornecedores cadastrados (só devem aparecer os do estado
+-- de SP e o estrangeiro). 
+
+select * from fornecedor
