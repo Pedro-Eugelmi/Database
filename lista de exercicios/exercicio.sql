@@ -47,8 +47,12 @@ Where codigo_fornec = 78;
 
 alter table fornecedor add column email varchar(30);
 
+
 update fornecedor 
     set email = "Alimentos@do.bem"
 where codigo_fornec = 344
 
-update forncedor 
+
+update fornecedor 
+    set email = "quentinhas@food.com"
+where codigo_fornec = 111
