@@ -88,3 +88,28 @@ select nome, codigo_fornec from fornecedor
 
 select codigo_fornec,nome from fornecedor 
 where codigo_fornec < 100 and estado = "SP"
+
+-- Alterar na tabela produto o nome do leite para leite desnatado.
+update produto
+    set nome = "Leite desnatado"
+where cod_produto = 4
+
+-- Alterar a quantidade de todos os produtos subtraindo em uma unidade cada um.
+update produto
+    set qtde = qtde - 1
+
+    
+-- Adicionar um campo na tabela fornecedor chamado país (varchar(30)).
+
+alter table fornecedor add column pais varchar(30);
+
+update table fornecedor 
+    pais = "brasil";
+
+-- k) Cadastrar um fornecedor estrangeiro.
+
+insert into fornecedor(codigo_fornec,nome,fone, cidade,estado) 
+values (655, "Health foods inc", "999888", "Austin", "TX" );
+
+-- l) Excluir os fornecedores brasileiros que não são do estado de SP. 
+
