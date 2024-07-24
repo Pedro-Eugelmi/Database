@@ -59,4 +59,18 @@ where codigo_fornec = 111
 
 alter table fornecedor drop column endereco;
 
-alter table fornecedor 
+update produto 
+    set qtde = 15
+where cod_produto = 1
+
+select * from fornecedor;
+
+-- Buscar o nome dos produtos onde o preço seja maior que 15 reais.
+
+select nome from produto 
+where preco_unitario > 15
+
+--  Apresentar o nome e o código dos fornecedores que são do estado de SP.
+select nome, codigo_fornec from fornecedor
+where estado = "SP"
+
