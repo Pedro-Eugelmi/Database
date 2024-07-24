@@ -74,3 +74,7 @@ where preco_unitario > 15
 select nome, codigo_fornec from fornecedor
 where estado = "SP"
 
+-- Apresentar o nome dos produtos e o total de cada produto (preço x qtde) com o
+-- nome da coluna de total.
+
+select nome, preco_unitario * qtde as total from produto; 
