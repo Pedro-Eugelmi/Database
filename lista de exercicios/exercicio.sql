@@ -56,3 +56,7 @@ where codigo_fornec = 344
 update fornecedor 
     set email = "quentinhas@food.com"
 where codigo_fornec = 111
+
+alter table fornecedor drop column endereco;
+
+alter table fornecedor 
