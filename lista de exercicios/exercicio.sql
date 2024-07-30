@@ -119,3 +119,168 @@ delete from fornecedor
 -- de SP e o estrangeiro). 
 
 select * from fornecedor
+
+
+   create database empresa;
+
+   use empresa;
+
+
+
+    create table departamento (
+        numero int NOT NULL,
+        nome varchar(30),
+        localizacao varchar(60),
+        Primary Key(numero)
+    );
+
+
+
+   create table gerente (
+        codigo int auto_increment,
+        nome varchar(30),
+        numDepto int NOT NULL,
+        Primary Key(codigo),
+        foreign key(numDepto) references departamento(numero)
+   ); 
+
+
+
+
+    create table empregado (
+        codigo int AUTO_INCREMENT,
+        nome varchar(30),
+        endereco varchar(60),
+        telefone varchar(10),
+        data_admissao varchar(30),
+        numDepto int,
+        salario float,
+        Primary key(codigo),
+        foreign key(numDepto) references departamento(numero)
+    ) 
+
+
+
+
+    create table projeto (
+        numero int,
+        nome varchar(30),
+        descricao varchar(100),
+        numDepto int,
+        primary key (numero),
+        foreign key (numDepto) references departamento(numero)
+    );
+
+
+
+   create table trabalha_em (
+    empCode int,
+    numProj int,
+    total_horas_semanais float,
+    primary key(empCode,numProj),
+    foreign key (empCode) references empregado(codigo),
+    foreign key (numProj) references projeto(numero)
+   );
+
+
+
+
+-- Inserir dados na tabela Empregado
+INSERT INTO empregado (nome, endereco, telefone, data_admissao, numDepto, salario) VALUES
+('Ana Souza', 'Rua A, 123', '11987654321', '2022-01-15', 1, 1500.00),
+('Carlos Silva', 'Rua B, 456', '21987654321', '2021-07-22', 2, 4000.00),
+('Beatriz Oliveira', 'Rua C, 789', '31987654321', '2023-03-01', 3, 4500.00);
+
+-- Inserir dados na tabela Projeto
+INSERT INTO projeto (numero, nome, descricao, numDepto) VALUES
+(101, 'Sistema de Gestão', 'Desenvolvimento de sistema para gestão de funcionários', 2),
+(102, 'Reforma de Escritório', 'Reforma do escritório principal', 1),
+(103, 'Campanha Publicitária', 'Criação e execução de campanha publicitária', 3);
+
+-- Inserir dados na tabela Trabalha_Em
+INSERT INTO trabalha_em (empCode, numProj, total_horas_semanais) VALUES
+(1, 101, 40.0),
+(2, 102, 20.0),
+(3, 103, 30.0);
+
+-- Inserir dados na tabela Gerente
+INSERT INTO gerente (nome, numDepto) VALUES
+('José Martins', 1),
+('Fernanda Lima', 2),
+('Lucas Pereira', 3);
+
+
+-- a) Criar um banco chamada escritorio_SeuNome com as tabelas acima.
+
+-- b) Cadastrar 3 registros para cada tabela, incluindo a tabela Trabalha_Em.
+-- Inserir dados na tabela Departamento
+INSERT INTO departamento (numero, nome, localizacao) VALUES
+(1, 'Recursos Humanos', 'São Paulo'),
+(2, 'Tecnologia', 'Rio de Janeiro'),
+(3, 'Financeiro', 'Belo Horizonte');
+
+-- Inserir dados na tabela Empregado
+INSERT INTO empregado (nome, endereco, telefone, data_admissao, numDepto, salario) VALUES
+('Ana Souza', 'Rua A, 123', '11987654321', '2022-01-15', 1, 1500.00),
+('Carlos Silva', 'Rua B, 456', '21987654321', '2021-07-22', 2, 4000.00),
+('Beatriz Oliveira', 'Rua C, 789', '31987654321', '2023-03-01', 3, 4500.00);
+
+-- Inserir dados na tabela Projeto
+INSERT INTO projeto (numero, nome, descricao, numDepto) VALUES
+(101, 'Sistema de Gestão', 'Desenvolvimento de sistema para gestão de funcionários', 2),
+(102, 'Reforma de Escritório', 'Reforma do escritório principal', 1),
+(103, 'Campanha Publicitária', 'Criação e execução de campanha publicitária', 3);
+
+INSERT INTO projeto (numero, nome, descricao, numDepto) VALUES
+(105, 'Sistema de Gestão', 'Desenvolvimento de sistema para gestão de funcionários', 2),
+(104, 'Reforma de Escritório', 'Reforma do escritório principal', 1),
+(106, 'Campanha Publicitária', 'Criação e execução de campanha publicitária', 3)
+
+-- Inserir dados na tabela Trabalha_Em
+INSERT INTO trabalha_em (empCode, numProj, total_horas_semanais) VALUES
+(1, 105, 40.0),
+(2, 104, 20.0),
+(3, 106, 30.0);
+
+-- Inserir dados na tabela Gerente
+INSERT INTO gerente (nome, numDepto) VALUES
+('José Martins', 1),
+('Fernanda Lima', 2),
+('Lucas Pereira', 3);
+
+-- c) Informe o nome e a localização de todos os departamentos.
+SELECT nome, localizacao
+FROM departamento;
+
+-- d) Obtenha todos os dados dos empregados com salário superior ou igual a
+-- 3000 Reais.
+SELECT *
+FROM empregado
+WHERE salario >= 3000.00;
+
+-- e) Apresentar o nome dos gerentes.
+SELECT nome
+FROM gerente;
+
+-- f) Consultar o nome, o salário e o salário com acréscimo de 10% com nome de ‘salário
+-- atualizado’ dos empregados.
+SELECT nome, 
+       salario AS salario_atual, 
+       salario * 1.10 AS salario_com_acrescimo
+FROM empregado;
+
+-- g) Atualizar o salário, aumentando o salário de todos empregados em 10%.
+UPDATE empregado
+SET salario = salario * 1.10;
+
+-- h) Incluir um campo chamado tipo_projeto (varchar(15)) na tabela projeto.
+ALTER TABLE projeto
+ADD tipo_projeto VARCHAR(15);
+
+-- i) Atualizar a tabela projeto, colocando o valor ‘grande’ no campo tipo_projeto.
+
+UPDATE projeto
+SET tipo_projeto = 'grande';
+
+
+
