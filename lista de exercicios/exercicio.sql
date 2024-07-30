@@ -214,6 +214,7 @@ INSERT INTO gerente (nome, numDepto) VALUES
 
 -- b) Cadastrar 3 registros para cada tabela, incluindo a tabela Trabalha_Em.
 -- Inserir dados na tabela Departamento
+
 INSERT INTO departamento (numero, nome, localizacao) VALUES
 (1, 'Recursos Humanos', 'São Paulo'),
 (2, 'Tecnologia', 'Rio de Janeiro'),
