@@ -107,3 +107,63 @@ select candidate.name, ROUND(((score.math * 2) + (score.specific * 3) + (score.p
 from candidate
 inner join score on score.candidate_id = candidate.id 
 order by pontuacao_final desc;
+
+-- O Banco Central de Financiamentos perdeu vários registros após uma falha no servidor que ocorreu no mês de Outubro.
+-- As datas de cobrança das parcelas foram perdidas. Porém uma cópia de segurança foi encontrada contendo as informações 
+--sobre as datas de pagamento das parcelas dos clientes.
+-- Por tanto, o Banco pede a sua ajuda para selecionar os nomes e o dia do mês que cada cliente deve pagar sua parcela.
+-- OBS: Obrigatoriamente o dia do mês precisa ser um inteiro.
+SELECT name, EXTRACT(DAY FROM payday) AS dia_do_mes
+FROM loan;
+
+
+-- Selecione os três primeiros colocados da lista com a frase inicial Podium: 
+-- e também, os dois últimos times que serão rebaixados para série B com a frase inicial Demoted:
+
+(select position, concat('Podium: ', name) 
+from league limit 3
+order by position)
+union all
+(SELECT position, concat('Demoted: ', name) 
+FROM league 
+ORDER BY position DESC 
+LIMIT 2);
+
+
+-- Portanto, você deverá mostrar a frase 'Approved: ' junto com o nome do aluno e a sua nota, para os alunos que foram aprovados (grade ≥7).
+-- Lembre-se de ordenar a lista pela maior nota.
+
+select concat('Approved: ', name) as name, grade as grade 
+from students 
+where grade >= 7
+order by grade DESC;
+
+-- A sua primeira tarefa é selecionar todos os possíveis Richards das dimensões C875 e C774, 
+-- junto a sua probabilidade de existência (o fator N) com a precisão de 3 casas decimais.
+-- Lembre-se que (o fator N) é calculado multiplicando o valor omega por 1,618. Os dados devem ser ordenados pelo menor valor do campo omega.
+
+SELECT
+    l.name AS nome_do_richard,
+    ROUND(l.omega * 1.618, 3) AS fator_N
+FROM
+    life_registry l
+INNER JOIN dimensions d ON d.id = l.dimensions_id
+WHERE
+    d.name IN ('C875', 'C774')
+    AND l.name LIKE '%Richard%'
+ORDER BY
+    l.omega ASC;
+
+
+
+-- A Organização Mundial de Caracteres em Nomes de Pessoas (OMCNP) está fazendo um censo para saber qual é a quantidade de caracteres que as pessoas têm em seus nomes.
+-- Para ajudar a OMCNP, você deve mostrar a quantidade de caracteres de cada nome em ordem decrescente pela quantidade de caracteres.
+
+SELECT name ,LENGTH(name) AS tamanho 
+FROM people 
+ORDER BY tamanho desc;
+
+-- Por tanto você deve selecionar o id, a senha atual e a senha transformada em MD5 de cada usuário na tabela account.
+
+select id, password, MD5('MD5', password) as MD5
+from  account;
