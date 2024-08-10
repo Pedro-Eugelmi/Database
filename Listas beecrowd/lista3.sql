@@ -167,3 +167,86 @@ ORDER BY tamanho desc;
 
 select id, password, MD5('MD5', password) as MD5
 from  account;
+
+-- Você está indo para uma reunião no plano Internacional de Taxas Pessoais, sua proposta é: toda pessoa com renda acima de
+-- 3000 deve pagar uma taxa para o governo, essa taxa é 10% do que ela ganha.
+-- Portanto, mostre o nome da pessoa e o valor que ela deve pagar para o governo com a precisão de duas casas decimais.
+--Mostrar nome + salario * 10%, arredondando duas casas
+
+SELECT name , ROUND(salary * 0.1, 02) as tax
+from people
+where salary > 3000
+
+
+-- Os vírus estão evoluindo, porém uma nova pesquisa tem provado que trocando algumas proteínas a vacina se torna imbatível. 
+-- A proteína H1 (Hemaglutinina) quando é substituída pela proteína X (Xenomorphina) tem efeitos interessantes no combate de quase todas as doenças virais. 
+-- Alguns conspiracionistas dizem que após a descoberta dessa vacina algumas criaturas de 3 metros de altura foram vistas perto do laboratório,
+--  mas claro, isso é mentira.
+-- Portanto você deve substituir todo caractere 'H1' ( Hemaglutinina ) por 'X' ( Xenomorphina ).
+SELECT REPLACE(name, 'H1', 'X')
+from virus
+
+-- O Campeonato Cearense de Futebol atrai milhares de torcedores todos os anos, 
+-- você trabalha em um jornal e está encarregado de calcular a tabela de pontuação dos times.
+--  Mostre uma tabela com as seguintes colunas: o nome do time, número de partidas, vitórias, derrotas, empates e pontuação. 
+--  Sabendo que a pontuação é calculada com cada vitória valendo 3 pontos, empate vale 1 e derrota rende 0. 
+-- No final mostre sua tabela com a pontuação ordenada do maior para o menor.
+
+SELECT 
+    t.name,
+    COUNT(m.id) AS matches,
+    SUM(CASE WHEN t.id = m.team_1 AND m.team_1_goals > m.team_2_goals THEN 1
+             WHEN t.id = m.team_2 AND m.team_2_goals > m.team_1_goals THEN 1
+             ELSE 0 END) AS victories,
+    SUM(CASE WHEN t.id = m.team_1 AND m.team_1_goals < m.team_2_goals THEN 1
+             WHEN t.id = m.team_2 AND m.team_2_goals < m.team_1_goals THEN 1
+             ELSE 0 END) AS defeats,
+    SUM(CASE WHEN m.team_1_goals = m.team_2_goals THEN 1 ELSE 0 END) AS draws,
+    SUM(CASE WHEN t.id = m.team_1 AND m.team_1_goals > m.team_2_goals THEN 3
+             WHEN t.id = m.team_2 AND m.team_2_goals > m.team_1_goals THEN 3
+             WHEN m.team_1_goals = m.team_2_goals THEN 1
+             ELSE 0 END) AS score
+FROM 
+    teams t
+LEFT JOIN 
+    matches m ON t.id IN (m.team_1, m.team_2)
+GROUP BY 
+    t.id, t.name
+ORDER BY 
+    score DESC, victories DESC, draws DESC, defeats ASC;
+
+-- Para cada departamento, mostrar o nome do departamento, o nome de suas divisões,
+--  com a respectiva média salarial e maior salário de cada divisão. 
+-- O resultado deve estar em ordem decrescente usando a média salarial.
+-- Dica: Você pode utilizar a função COALESCE(check_expression , 0) 
+-- para substituir algum valor null por zero; Além disso, você também pode utilizar a função ROUND(value, 2) 
+-- para exibir os valores com 2 casas decimais.
+
+SELECT DEP.nome as DEPARTAMENTO, 
+DIV.nome AS DIVISAO,
+ROUND(COALESCE( AVG(VENC.VALOR),0),2) AS MEDIA,
+ROUND(COALESCE(MAX(VENC.VALOR), 0),2) AS MAIOR 
+FROM divisao DIV
+JOIN 
+    departamento DEP ON dep.cod_dep = div.cod_dep
+JOIN 
+    empregado emp ON emp.lotacao_div = div.cod_divisao
+JOIN 
+    emp_venc ev ON ev.matr = emp.matr
+JOIN 
+    vencimento venc ON venc.cod_venc = ev.cod_venc
+GROUP BY DEP.nome, DIV.nome 
+ORDER BY media DESC
+
+-- Mostrar o CPF, nome dos empregados e o nome do departamento dos empregados que não trabalham em nenhum projeto. 
+-- O resultado deve estar ordenado por cpf
+
+
+LEFT JOIN trabalha TRAB ON EMP.cpf = TRAB.cpf_emp
+JOIN projetos PROJ ON PROJ.pnumero = TRAB.pnumero 
+JOIN departamento DEP ON DEP.dnumero  = PROJ.dnumero  
+WHERE TRAB.cpf_emp IS NULL
+ORDER BY EMP.cpf 
+
+
+
